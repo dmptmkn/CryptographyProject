@@ -12,8 +12,8 @@ public class Parsing {
     3) ключ - символ из Encrypted, значение - символ из Statistics (для расшифровки - Decrypted)
 
     с помощью этой карты расшифровать результат максимально приемлемо
-
      */
+
     public void parse() {
 
     }
