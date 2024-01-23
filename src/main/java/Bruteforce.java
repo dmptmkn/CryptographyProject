@@ -1,31 +1,74 @@
 import lombok.SneakyThrows;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Bruteforce {
+
+    private static final int MAX_WORD_LENGTH = 28;
 
     @SneakyThrows
     public void bruteForce() {
         Util.writeMessage("Введите адрес зашифрованного файла");
         String src = Util.readString();
         Path dst = Util.buildFileName(src, "_brutforce");
+        StringBuilder builder = new StringBuilder();
+
+        CaesarCipher caesar = new CaesarCipher();
+
         try (BufferedReader reader = Files.newBufferedReader(Path.of(src));
              BufferedWriter writer = Files.newBufferedWriter(dst)) {
-
+            List<String> list = new ArrayList<>();
+            while (reader.ready()) {
+                String line = reader.readLine();
+                builder.append(line).append(System.lineSeparator());
+                list.add(line);
+            }
+            for (int i = 0; i < caesar.alphabetLength(); i++) {
+                String result = caesar.decrypt(builder.toString(), i);
+                if (isValidated(result)) {
+                    for (String str : list) {
+                        String decrypted = caesar.decrypt(str, i);
+                        writer.write(decrypted);
+                        writer.newLine();
+                    }
+                    Util.writeMessage("Содержимое расшифровано. Ключ расшифровки: " + i);
+                    break;
+                }
+            }
         }
+    }
 
-
+    private boolean isValidated(String text) {
+        boolean isValidated = false;
+        for (String word : text.split(" ")) {
+            if (word.length() > MAX_WORD_LENGTH) {
+                break;
+            }
+        }
+        if (text.contains(", ") || text.contains(". ")
+                || text.contains("! ") || text.contains("? ")
+                || text.contains("; ") || text.contains(": ")) {
+            isValidated = true;
+        }
+        while (isValidated) {
+            Util.writeMessage(text);
+            Util.writeMessage("Подходит ли вариант расшифровки? Да/Нет");
+            String answer = Util.readString();
+            if (answer.equalsIgnoreCase("да")) {
+                return true;
+            } else if (answer.equalsIgnoreCase("нет")) {
+                isValidated = false;
+            } else {
+                Util.writeMessage("Для ответа введите \"Да\" или \"Нет\"");
+            }
+        }
+        return false;
     }
 }
 
-// считать содержимое файлы в переменную типа String
-// при получении строки нужно ее дешифровать через цикл который идет пока i < ALPHABET.length()
-// полученные варианты расшифрованного текста нужно валидировать
-// валидация происходит через разбиение валидируемого текста по проблелу и проверку каждого слова на длину
-// если длина больше 28, то это точно некорректный текст
-// если проверка прошла, то проверить, что в тексте содержится хотя бы одна из следующих последовательность ": " "! ". " и тп
-// если проверка прошла, то предложить пользователю на валидацию кусок расшифрованного текста
+// создать класс Brutforce-2 и попробовать дооптимизировать задачу: воспользоваться Files.readAllLines
+// создать класс Brutforce-3 и решить задачу через методы Files.readString() и Files.writeString()
