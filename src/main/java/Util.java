@@ -2,11 +2,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
-import java.util.Arrays;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Util {
@@ -26,6 +24,7 @@ public class Util {
             writeMessage(EXCEPTION_MESSAGE);
             string = readString();
         }
+
         return string;
     }
 
@@ -39,6 +38,7 @@ public class Util {
             writeMessage(EXCEPTION_MESSAGE);
             number = readInt();
         }
+
         return number;
     }
 
@@ -47,20 +47,14 @@ public class Util {
         Path parent = absolutePath.getParent();
         String fileName = absolutePath.getFileName().toString();
         String newFileName;
+
         if (fileName.contains(".")) {
             int index = fileName.lastIndexOf(".");
             newFileName = fileName.substring(0, index) + suffix + fileName.substring(index);
         } else {
             newFileName = fileName + suffix;
         }
-       return parent.resolve(newFileName);
+
+        return parent.resolve(newFileName);
     }
 }
-
-
-
-
-/*
-написать метод который добавляет суффикс к файлу предоставленному пользователем
-суффикс каждый раз разный и добавляет
- */

@@ -14,6 +14,7 @@ public class Bruteforce {
     public void bruteForce() {
         Util.writeMessage("Введите адрес зашифрованного файла");
         String src = Util.readString();
+
         Path dst = Util.buildFileName(src, "_brutforce");
         StringBuilder builder = new StringBuilder();
 
@@ -44,16 +45,19 @@ public class Bruteforce {
 
     private boolean isValidated(String text) {
         boolean isValidated = false;
+
         for (String word : text.split(" ")) {
             if (word.length() > MAX_WORD_LENGTH) {
                 break;
             }
         }
+
         if (text.contains(", ") || text.contains(". ")
                 || text.contains("! ") || text.contains("? ")
                 || text.contains("; ") || text.contains(": ")) {
             isValidated = true;
         }
+
         while (isValidated) {
             Util.writeMessage(text);
             Util.writeMessage("Подходит ли вариант расшифровки? Да/Нет");
@@ -66,6 +70,7 @@ public class Bruteforce {
                 Util.writeMessage("Для ответа введите \"Да\" или \"Нет\"");
             }
         }
+
         return false;
     }
 }
