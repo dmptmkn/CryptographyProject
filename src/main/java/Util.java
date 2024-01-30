@@ -18,6 +18,7 @@ public class Util {
 
     public static String readString() {
         String string;
+
         try {
             string = CONSOLE.readLine();
         } catch (IOException e) {
@@ -29,9 +30,8 @@ public class Util {
     }
 
     public static int readInt() {
-        System.out.println();
-
         int number;
+
         try {
             number = Integer.parseInt(readString());
         } catch (NumberFormatException e) {

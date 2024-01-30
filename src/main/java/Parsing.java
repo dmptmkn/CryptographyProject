@@ -22,8 +22,8 @@ public class Parsing {
 
             Path dest = Util.buildFileName(src, "_parsing");
 
-            List<Map.Entry<Character, Integer>> srcList = getDecryptKeyMap(new HashMap<>(), src);
-            List<Map.Entry<Character, Integer>> statList = getDecryptKeyMap(new HashMap<>(), statSrc);
+            List<Map.Entry<Character, Integer>> srcList = getStatList(new HashMap<>(), src);
+            List<Map.Entry<Character, Integer>> statList = getStatList(new HashMap<>(), statSrc);
 
             Map<Character, Character> decryptedCharMap = new HashMap<>();
 
@@ -45,11 +45,10 @@ public class Parsing {
                 Util.writeMessage("Предоставьте, пожалуйста, другой файл для набора статистики!");
             }
         }
-
     }
 
     @SneakyThrows
-    private List<Map.Entry<Character, Integer>> getDecryptKeyMap(Map<Character, Integer> map, String path) {
+    private List<Map.Entry<Character, Integer>> getStatList(Map<Character, Integer> map, String path) {
         for (char aChar : Files.readString(Path.of(path)).toCharArray()) {
             map.merge(aChar, 1, Integer::sum);
         }
